@@ -1,51 +1,34 @@
 import random
-
-
-
+import matplotlib.pyplot as plt
+import numpy as np
 class Environment:
-    def __init__(self, c_1, c_2):
-        self.c_1 = c_1 #probability of punishing for saying yes
-        self.c_2 = c_2 #probability of punishing for action no 
+    def __init__(self, penalty_probability):
+        self.penalty_probability = penalty_probability #probability of receiving a punishment regardless of the action
+         
     
     #! changes have to be done here:
-    def penalty(self, action, counter):
+    def penalty(self, counter, ta):
+        random_value=random.random()
         if counter>=0 and counter<4: 
-            probability_penalty=1-(counter*0.2)
-            self.c_1=probability_penalty
-            self.c_2=self.c_1
-            if action == "yes":
-                if random.random() <= self.c_1:
-                    print("penalty true case1yes")
-                    return True
-                else:
-                    print("penalty false case1yes")
-                    return False
-            elif action == "no":
-                if random.random() <= self.c_2:
-                    print("penalty true case1no")
-                    return True
-                else:
-                    print("penalty false case1no")
-                    return False
-        if counter==4 or counter==5:
-            probability_penalty=1-(0.6-(counter-3)*0.2)
-            self.c_1=probability_penalty
-            self.c_2=self.c_1
-            if action == "yes":
-                if random.random() <= self.c_1:
-                    print("penalty true case2yes")
-                    return True
-                else:
-                    print("penalty false case2yes")
-                    return False
-            elif action == "no":
-                if random.random() <= self.c_2:
-                    print("penalty true case2no")
-                    return True
-                else:
-                    print("penalty false case2no")
-                    return False          
+           
+            self.penalty_probability=1-(counter*0.2)
 
+            print("Random number is", ta, "is", random_value, "\n")
+            print("Penalty prob for", ta, "is", self.penalty_probability, "\n")
+            if random_value <= self.penalty_probability:
+                    return True
+            else:
+                    return False
+        
+        if counter==4 or counter==5:
+            self.penalty_probability=1-(0.6-(counter-3)*0.2)
+            print("Penalty prob for", ta, "is", self.penalty_probability, "\n")
+            if random_value <= self.penalty_probability:
+                    return True
+            else:
+                    return False
+     
+            
 
   
 
@@ -81,15 +64,16 @@ class Tsetlin:
 
 yes_no_count=[0,0]
 
-env = Environment(0.2, 2)
+env = Environment(1)
 
 la1 = Tsetlin(3)
 la2 = Tsetlin(3)
 la3 = Tsetlin(3)
 la4= Tsetlin(3)
 la5= Tsetlin(3)
+array=[]
 
-for i in range(5):
+for i in range(100):
     word1=la1.makeDecision()
     word2=la2.makeDecision()
     word3=la3.makeDecision()
@@ -97,47 +81,74 @@ for i in range(5):
     word5=la5.makeDecision()
 
     yes_and_no=[word1, word2, word3, word4, word5]
-    print("\n")
+    print("=========Loop ",i,"==========\n")
     print(yes_and_no)
-    print("\n")
+ 
     counter=yes_and_no.count("yes")
-    print("Counter", counter)
-    penalty_for_la1 = env.penalty(word1, counter)
-    penalty_for_la2 = env.penalty(word2, counter)
-    penalty_for_la3 = env.penalty(word3, counter)
-    penalty_for_la4 = env.penalty(word4, counter)
-    penalty_for_la5 = env.penalty(word5, counter)
-    
+    array.append(counter)
+    print("Counter: ", counter, "\n")
+    print("^^^^^^^^^^^^^^^^^^^\n")
+    penalty_for_la1 = env.penalty(counter, "LA1")
+    penalty_for_la2 = env.penalty(counter, "LA2")
+    penalty_for_la3 = env.penalty(counter, "LA3")
+    penalty_for_la4 = env.penalty(counter, "LA4") 
+    penalty_for_la5 = env.penalty(counter, "LA5")
+    print("^^^^^^^^^^^^^^^^^^^\n")
+  
+         
     if penalty_for_la1:
-        print("Penalty", end = ' ')
+        print("Penalty for LA1", end = ' ')
         la1.penalize()
     else:
-        print("Reward", end = ' ')
+        print("Reward for LA1", end = ' ')
         la1.reward()
   
 
     if penalty_for_la2:
-        print("Penalty", end = ' ')
+        print("Penalty for LA2", penalty_for_la2, end = ' ')
         la2.penalize()
     else:
-        print("Reward", end = ' ')
+        print("Reward for LA2", end = ' ')
         la2.reward()
+
     if penalty_for_la3:
-        print("Penalty", end = ' ')
+        print("Penalty for LA3", end = ' ')
         la3.penalize()
     else:
-        print("Reward", end = ' ')
+        print("Penalty for LA3", end = ' ')
         la3.reward()
+
+
     if penalty_for_la4:
-        print("Penalty", end = ' ')
-        la2.penalize()
+        print("Penalty for LA4", end = ' ')
+        la4.penalize()
     else:
-        print("Reward", end = ' ')
+        print("Reward for LA4", end = ' ')
         la4.reward()
+
     if penalty_for_la5:
-        print("Penalty", end = ' ')
+        print("Penalty for LA5", end = ' ')
         la5.penalize()
     else:
-        print("Reward", end = ' ')
+        print("Reward for LA5", end = ' ')
         la5.reward()
+    
+    print("\n")
+    print("===================\n")
 
+
+
+
+
+# plt.rcParams["figure.figsize"] = [7.50, 3.50]
+# plt.rcParams["figure.autolayout"] = True
+
+# y = array
+# x = range(100)
+
+# plt.title("Line graph")
+# plt.plot(x, y, color="red")
+
+# plt.xlabel("Loop")
+# plt.ylabel("Number of TA saying yes")
+# plt.show()
