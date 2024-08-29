@@ -5,8 +5,7 @@ class Environment:
     def __init__(self, penalty_probability):
         self.penalty_probability = penalty_probability #probability of receiving a punishment regardless of the action
          
-    
-    #! changes have to be done here:
+
     def penalty(self, counter, ta):
         random_value=random.random()
         if counter>=0 and counter<4: 
@@ -140,15 +139,22 @@ for i in range(100):
 
 
 
-# plt.rcParams["figure.figsize"] = [7.50, 3.50]
-# plt.rcParams["figure.autolayout"] = True
+plt.rcParams["figure.figsize"] = [7.50, 3.50]
+plt.rcParams["figure.autolayout"] = True
 
-# y = array
-# x = range(100)
+y = array
+x = range(100)
 
-# plt.title("Line graph")
-# plt.plot(x, y, color="red")
+plt.title("Line graph")
+plt.plot(x, y, color="red")
 
-# plt.xlabel("Loop")
-# plt.ylabel("Number of TA saying yes")
-# plt.show()
+plt.xlabel("Loop")
+plt.ylabel("Number of TA saying yes")
+plt.show()
+
+# M=0 penalty=1
+#M 1  penalty 0.8
+# M 2 penlty = 0.6
+# M3 penalty 0.4
+# M4 penalty 0.6
+# M5 penalty 0.8
