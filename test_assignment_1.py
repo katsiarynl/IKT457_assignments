@@ -3,6 +3,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation
 
+#Probability of penalty 
+# P(0)=1
+# P(1)=0.8
+# P(2)=0.6
+# P(3)=0.4
+# P(4)= 0.6
+# P(5)=0.8
+
 class Environment:
     def __init__(self, penalty_probability):
         self.penalty_probability = penalty_probability
@@ -113,6 +121,7 @@ def update_hist(num):
     ax.set_xlabel("Number of TA saying yes")
     ax.set_ylabel("Frequency")
     ax.set_title("Histogram")
+
 
 number_of_frames=101
 ani = FuncAnimation(fig, update_hist, frames=number_of_frames-1, repeat=False, interval=200)
