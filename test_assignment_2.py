@@ -1,5 +1,6 @@
 from random import random 
 from random import choice
+
 patients_with_recurrence = [
     {"Menopause lt40": False, "Menopause ge40": True, "Menopause premeno": False, 
      "Inv-Nodes 0-2": False, "Inv-Nodes 3-5":True, "Inv-Nodes 6-8": False, 
@@ -39,13 +40,18 @@ patients_no_recurrence = [
 
 def evaluate_condition(observation, condition):
     truth_value_of_condition = True
+    # print("The observation is", observation)
+    # print("The condition is ", condition)
     for feature in observation:
         if feature in condition and observation[feature] == False:
+            # print("The truth value of condition is False")
             truth_value_of_condition = False
             break
         if 'NOT ' + feature in condition and observation[feature] == True:
             truth_value_of_condition = False
+            # print("The truth value of condition is False")
             break
+        # print("The truth value is true")
     return truth_value_of_condition
 
 
@@ -81,76 +87,156 @@ class Memory:
             self.memory[literal] += 1
 
 
-rule_1=  Memory(0.9, 0.1, {'Menopause lt40':0, 'Menopause ge40':0, 'Menopause premeno':0, 
-                             'NOT Menopause lt40':0, 'NOT Menopause ge40':0, 'NOT Menopause premeno':10, 
-                             'Inv-Nodes 0-2': 0, 'Inv-Nodes 3-5':0, 'Inv-Nodes 6-8':0, 
-                             'NOT Inv-Nodes 0-2':0, 'NOT Inv-Nodes 3-5': 0, 'NOT Inv-Nodes 6-8': 0, 
-                             'Deg-malig 1':0, 'Deg-malig 2': 0, 'Deg-malig 3':10,
-                             'NOT Deg-malig 1':0, 'NOT Deg-malig 2':0, 'NOT Deg-malig 3':0,
+# Recurrence rules
+rule_1=  Memory(0.2, 0.8, {'Menopause lt40':1, 'Menopause ge40':1, 'Menopause premeno':1, 
+                             'NOT Menopause lt40':10, 'NOT Menopause ge40':1, 'NOT Menopause premeno':1, 
+                             'Inv-Nodes 0-2': 1, 'Inv-Nodes 3-5':1, 'Inv-Nodes 6-8':1, 
+                             'NOT Inv-Nodes 0-2':1, 'NOT Inv-Nodes 3-5': 1, 'NOT Inv-Nodes 6-8': 1, 
+                             'Deg-malig 1':1, 'Deg-malig 2': 1, 'Deg-malig 3':10,
+                             'NOT Deg-malig 1':1, 'NOT Deg-malig 2':1, 'NOT Deg-malig 3':1,
                          
                              })
 
-rule_2=  Memory(0.9, 0.1, {'Menopause lt40':0, 'Menopause ge40':0, 'Menopause premeno':0, 
-                             'NOT Menopause lt40':0, 'NOT Menopause ge40':0, 'NOT Menopause premeno':10, 
-                             'Inv-Nodes 0-2': 0, 'Inv-Nodes 3-5':0, 'Inv-Nodes 6-8':0, 
-                             'NOT Inv-Nodes 0-2':0, 'NOT Inv-Nodes 3-5': 0, 'NOT Inv-Nodes 6-8': 0, 
-                             'Deg-malig 1':0, 'Deg-malig 2': 0, 'Deg-malig 3':10,
-                             'NOT Deg-malig 1':0, 'NOT Deg-malig 2':0, 'NOT Deg-malig 3':0,
+rule_2=  Memory(0.2, 0.8, {'Menopause lt40':1, 'Menopause ge40':1, 'Menopause premeno':1, 
+                             'NOT Menopause lt40': 1, 'NOT Menopause ge40': 1, 'NOT Menopause premeno':1, 
+                             'Inv-Nodes 0-2': 1, 'Inv-Nodes 3-5':1, 'Inv-Nodes 6-8':1, 
+                             'NOT Inv-Nodes 0-2':1, 'NOT Inv-Nodes 3-5': 1, 'NOT Inv-Nodes 6-8': 1, 
+                             'Deg-malig 1':1, 'Deg-malig 2': 1, 'Deg-malig 3':10,
+                             'NOT Deg-malig 1':1, 'NOT Deg-malig 2':1, 'NOT Deg-malig 3':1,
                          
                              })
 
-rule_3 = Memory(0.9, 0.1, {'Menopause lt40':0, 'Menopause ge40':0, 'Menopause premeno':0, 
-                             'NOT Menopause lt40':0, 'NOT Menopause ge40':0, 'NOT Menopause premeno':0, 
-                             'Inv-Nodes 0-2': 10, 'Inv-Nodes 3-5':0, 'Inv-Nodes 6-8':0, 
-                             'NOT Inv-Nodes 0-2':0, 'NOT Inv-Nodes 3-5': 0, 'NOT Inv-Nodes 6-8': 0, 
-                             'Deg-malig 1':0, 'Deg-malig 2': 0, 'Deg-malig 3':0,
-                             'NOT Deg-malig 1':0, 'NOT Deg-malig 2':0, 'NOT Deg-malig 3':0,
-                            #  'Recurrence':0,
-                            #  'NOT Recurrence':4,
+# Non-recurrence rule
+rule_3 = Memory(0.2, 0.8, {'Menopause lt40':1, 'Menopause ge40':1, 'Menopause premeno':1, 
+                             'NOT Menopause lt40':1, 'NOT Menopause ge40':1, 'NOT Menopause premeno':1, 
+                             'Inv-Nodes 0-2': 10, 'Inv-Nodes 3-5':1, 'Inv-Nodes 6-8':1, 
+                             'NOT Inv-Nodes 0-2': 1, 'NOT Inv-Nodes 3-5': 1, 'NOT Inv-Nodes 6-8': 1, 
+                             'Deg-malig 1':1, 'Deg-malig 2': 1, 'Deg-malig 3':1,
+                             'NOT Deg-malig 1':1, 'NOT Deg-malig 2':1, 'NOT Deg-malig 3':1,
+                    
+                             })
+
+rule_4_recurrence = Memory(0.2, 0.8, {'Menopause lt40':5, 'Menopause ge40':5, 'Menopause premeno':5, 
+                             'NOT Menopause lt40':5, 'NOT Menopause ge40':5, 'NOT Menopause premeno':5, 
+                             'Inv-Nodes 0-2': 5, 'Inv-Nodes 3-5':5, 'Inv-Nodes 6-8':5, 
+                             'NOT Inv-Nodes 0-2': 5, 'NOT Inv-Nodes 3-5': 5, 'NOT Inv-Nodes 6-8': 5, 
+                             'Deg-malig 1':5, 'Deg-malig 2': 5, 'Deg-malig 3':5,
+                             'NOT Deg-malig 1':5, 'NOT Deg-malig 2':5, 'NOT Deg-malig 3':5,
+                    
                              })
 
 
-# print("IF " + " AND ".join(rule_1.get_condition()) + " THEN Recurrence")
-# print("IF " + " AND ".join(rule_3.get_condition()) + " THEN Recurrence")
+rule_5_recurrence = Memory(0.2, 0.8, {'Menopause lt40':5, 'Menopause ge40':5, 'Menopause premeno':5, 
+                             'NOT Menopause lt40':5, 'NOT Menopause ge40':5, 'NOT Menopause premeno':5, 
+                             'Inv-Nodes 0-2': 5, 'Inv-Nodes 3-5':5, 'Inv-Nodes 6-8':5, 
+                             'NOT Inv-Nodes 0-2': 5, 'NOT Inv-Nodes 3-5': 5, 'NOT Inv-Nodes 6-8': 5, 
+                             'Deg-malig 1':5, 'Deg-malig 2': 5, 'Deg-malig 3':5,
+                             'NOT Deg-malig 1':5, 'NOT Deg-malig 2':5, 'NOT Deg-malig 3':5,
+                    
+                             })
 
-# print(evaluate_condition(patients[1], car_rule.get_condition()))
 
-# print(car_rule.get_condition())
-# car_rule.memorize('Deg-malig 2')
-# print("\n")
-# car_rule.memorize('Deg-malig 2')
-# car_rule.memorize("Deg-malig 2")
-# print(car_rule.memory)
+
 
 
 def type_i_feedback(observation, memory):
     remaining_literals = memory.get_literals()
     if evaluate_condition(observation, memory.get_condition()) == True:
         for feature in observation:
-            print("\n=================")
-            print(remaining_literals)
-            print(feature)
+            #print("Working here")
             
             if observation[feature] == True:
-                print("Case 1")
+                # print("Case 1")
                 memory.memorize(feature)
                 remaining_literals.remove(feature)
             elif observation[feature] == False:
-                print("Case 2")
+                # print("Case 2")
                 memory.memorize('NOT ' + feature)
                 remaining_literals.remove('NOT ' + feature)
-            print(remaining_literals)
-            print("\n=================")
+            # print(remaining_literals)
+            # print("\n=================")
     for literal in remaining_literals:
         memory.forget(literal)
 
 
+def type_ii_feedback(observation, memory):
+    if evaluate_condition(observation, memory.get_condition()) == True:
+        for feature in observation:
+            if observation[feature] == False:
+                memory.memorize_always(feature)
+            elif observation[feature] == True:
+                memory.memorize_always('NOT ' + feature)
 
 
+def classify(observation, car_rules, plane_rules):
+    vote_sum = 0
+    for car_rule in car_rules:
+        if evaluate_condition(observation, car_rule.get_condition()) == True:
+            vote_sum += 1
+    for plane_rule in plane_rules:
+        if evaluate_condition(observation, plane_rule.get_condition()) == True:
+            vote_sum -= 1
+    if vote_sum >= 0:
+        return "Recurrence"
+    else:
+        return "No Recurrence"
+
+
+#print("==========Initial Memory=========")
+#print(rule_1.get_memory())
+#Mixing type 1 and type 2 feedback for rule 1
 for i in range(100):
-    print(i)
+    #print("========================= ", i,"=========================")
     observation_id = choice([0,1,2])
-    type_i_feedback(patients_with_recurrence[observation_id], rule_1)
+   # print("The random observation is", observation_id)
+    recurrence = choice([0,1])
+   # print("The recurrence is", recurrence)
+    if recurrence == 1:
+        type_i_feedback(patients_with_recurrence[observation_id], rule_4_recurrence)
+    else:
+        type_ii_feedback(patients_no_recurrence[observation_id], rule_4_recurrence)
 
-remaining_literals = rule_1.get_literals()
-# print("Remaining literals: ", remaining_literals)
+
+
+#Mixing type 1 and type 2 feedback for rule 2
+#         
+for i in range(100):
+    observation_id = choice([0,1,2])
+    recurrence = choice([0,1])
+    if recurrence == 1:
+        type_i_feedback(patients_with_recurrence[observation_id], rule_5_recurrence)
+    else:
+        type_ii_feedback(patients_no_recurrence[observation_id], rule_5_recurrence)
+
+
+
+
+
+
+
+
+print("=========Rule 1==========")
+print("IF " + " AND ".join(rule_1.get_condition()) + " THEN Recurrence")
+print("=========Rule 2==========")
+print("IF " + " AND ".join(rule_2.get_condition()) + " THEN Recurrence")
+print("=========Rule 3==========")
+print("IF " + " AND ".join(rule_3.get_condition()) + " THEN Non Recurrence")
+print("=========Rule 4==========")
+print("IF " + " AND ".join(rule_4_recurrence.get_condition()) + " THEN Recurrence")
+print("=========Rule 5==========")
+print("IF " + " AND ".join(rule_5_recurrence.get_condition()) + " THEN Non Recurrence")
+
+
+print("===================Classification Recurrence=====================")
+print(classify(patients_with_recurrence[0], [rule_1, rule_2, rule_4_recurrence], [rule_3, rule_5_recurrence]))
+print(classify(patients_with_recurrence[1], [rule_1, rule_2, rule_4_recurrence], [rule_3, rule_5_recurrence]))
+print(classify(patients_with_recurrence[2], [rule_1, rule_2, rule_4_recurrence], [rule_3, rule_5_recurrence]))
+
+print("===================Classification Non Recurrence=====================")
+print(classify(patients_no_recurrence[0], [rule_1, rule_2, rule_4_recurrence], [rule_3, rule_5_recurrence]))
+print(classify(patients_no_recurrence[1], [rule_1, rule_2, rule_4_recurrence], [rule_3, rule_5_recurrence]))
+print(classify(patients_no_recurrence[2], [rule_1, rule_2, rule_4_recurrence], [rule_3, rule_5_recurrence]))
+# print(rule_3.get_memory())
+
+
+
