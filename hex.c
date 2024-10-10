@@ -74,6 +74,7 @@ int hg_place_piece_randomly(struct hex_game *hg, int player) {
     return empty_position;
 }
 // Check if a player has won
+// ! this has to be modified 
 int hg_winner(struct hex_game *hg, int player, int position) {
     for (int i = 0; i < 6; ++i) {
         int neighbor = position + neighbors[i];
@@ -126,10 +127,14 @@ int main() {
         // Simulate the game
         while (!hg_full_board(&hg)) {
             int position = hg_place_piece_randomly(&hg, player);
+            //! check if the player is a "winner" by using the currect move
+            
+             
             if (hg_winner(&hg, player, position)) {
                 winner = player;
                 break;
             }
+            //! So. the logic of determining the winner has to be modified 
             player = 1 - player;
         }
 
