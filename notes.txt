@@ -1,0 +1,8 @@
+1. Data processing: 
+    two ways: 
+        - modify the function so that it detects the fully connecte path required to win the game 
+        - check if the board is full since "hex can never be a draw"
+
+        - but in any case, the function has to be modified as it does not really detects the actual winner 
+
+        
