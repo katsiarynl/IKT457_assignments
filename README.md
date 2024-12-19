@@ -1,9 +1,9 @@
 # Final Project: 
-- Path:
+## Path:
 - 1) Select'Processing' Branch.
   2) Select 'Project' Folder.
  
-- Content:
+## Content:
 - 3_3_small.csv: Dataset for a 3x3 Hex game, achieving complete accuracy.
 - Hex_graph_representation.ipynb: Code to represent the Hex game as a graph structure.
 - Improved_Similar_sample.ipynb: Implementation of 3x3 Hex games, achieving complete accuracy.
